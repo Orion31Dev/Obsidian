@@ -6,6 +6,10 @@ commands:
     description: Toggle a player's ability to run commands.
     usage: /blockcommands <player>
     aliases: [bcmd, blockcmds, tcmd, togglecmds, togglecommands]
+  deletewaypoint:
+    description: Delete a waypoint.
+    usage: /deletewaypoint <waypoint>
+    aliases: [dpoint, delpoint, dloc, delloc, delwaypoint]
   gamemode:
     description: Change a player's gamemode
     usage: /gamemode <gamemode> [player]
@@ -13,7 +17,7 @@ commands:
   goto:
     description: Go to a waypoint.
     usage: /goto <name>
-    aliases: [gotoway, gotopoint, gotowaypoint, tpway, tppoint, tpwaypoint]
+    aliases: [warp, gotoway, gotopoint, gotowaypoint, tpway, tppoint, tpwaypoint]
   obsidian:
     description: Base Command for Obsidian
     usage: /obsidian [help] [command]
@@ -28,4 +32,4 @@ commands:
   waypoint:
     description: Create a waypoint.
     usage: /waypoint <name>
-    aliases: [point, loc, setpoint, setloc, setwaypoint]
+    aliases: [setwarp, createwarp, point, loc, setpoint, setloc, setwaypoint]

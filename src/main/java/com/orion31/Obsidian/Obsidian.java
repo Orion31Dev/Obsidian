@@ -53,7 +53,7 @@ public final class Obsidian extends JavaPlugin {
 	Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 	Bukkit.getServer().getPluginManager().registerEvents(new BlockListener(), this);
 
-	console("[Lottery] Plugin Active.");
+	console("Plugin Active.");
 	
 	BukkitScheduler scheduler = getServer().getScheduler();
 	scheduler.runTaskTimer(this, new PlayerUpdater(), 0L, 1L);

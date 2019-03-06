@@ -54,6 +54,13 @@ public class ObsidianYaml {
 	return yaml.getKeys(deep);
     }
     
+    public void clear() {
+	String fileName = file.getName();
+	file.delete();
+	file = new File(Obsidian.getInstance().getDataFolder(), fileName);
+	init();
+    }
+    
     public void save() {
 	try {
 	    yaml.save(file);

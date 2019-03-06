@@ -26,8 +26,8 @@ public class Commandgamemode extends ObsidianCommand {
 	GameMode gamemode = parseGamemode(args[0]);
 	target.setGamemode(gamemode);
 
-	msgColor(sender, target.getNick() + "&r's gamemode is now " + getFriendlyName(gamemode));
-	msgColor(target, "Your gamemode is now " + getFriendlyName(gamemode));
+	msg(sender, target.getNick() + " gamemode is now " + getFriendlyName(gamemode));
+	msg(target, "Your gamemode is now " + getFriendlyName(gamemode));
 	return true;
     }
 
@@ -38,7 +38,7 @@ public class Commandgamemode extends ObsidianCommand {
 	GameMode gamemode = parseGamemode(args[0]);
 	player.setGamemode(gamemode);
 
-	msgColor(player, "Your gamemode is now " + getFriendlyName(gamemode));
+	msg(player, "Your gamemode is now " + getFriendlyName(gamemode));
 	return true;
     }
 

@@ -89,7 +89,7 @@ public class Messenger {
     }
 
     public static void msgAll(String msg) {
-	ghostAll(tag + msg);
+	ghostAll(color(tag) + msg);
     }
 
     public static void console(String msg, Object... objects) {

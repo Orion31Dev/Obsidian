@@ -7,6 +7,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.orion31.Obsidian.Messenger;
 
@@ -22,7 +23,7 @@ public class ObsidianPlayer implements IObsidianPlayer {
     
     @Override
     public String getNick() {
-	return Messenger.color(settings.nick);
+	return Messenger.color(settings.nick + "&r");
     }
 
     @Override
@@ -43,6 +44,11 @@ public class ObsidianPlayer implements IObsidianPlayer {
     @Override
     public GameMode getGamemode() {
 	return settings.gamemode;
+    } 
+
+    @Override
+    public PlayerInventory getInventory() {
+	return player.getInventory();
     }
     
     @Override
@@ -71,6 +77,11 @@ public class ObsidianPlayer implements IObsidianPlayer {
     }
     
     @Override
+    public void clearInventory() {
+	player.getInventory().clear();
+    }
+    
+    @Override
     public void sendMessage(String msg) {
 	player.sendMessage(msg);
     }    
@@ -84,12 +95,11 @@ public class ObsidianPlayer implements IObsidianPlayer {
     public void setGamemode(GameMode gamemode) {
 	settings.gamemode = gamemode;
     }
-
+    
     @Override
     public void setCanRunCommands(boolean canRunCommands) {
 	settings.canRunCommands = canRunCommands;
     }
-    
     
     @Override
     public void teleport(Location location) {

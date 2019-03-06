@@ -19,7 +19,7 @@ public class Commandgoto extends ObsidianCommand {
 	    throw new InsufficientArgumentsException();
 
 	if (!Teleporter.waypointExists(args[0]))
-	    throw new ObsidianException("Unknown waypoint.");
+	    throw new ObsidianException("Unknown waypoint: &c" + args[0]);
 	
 	Teleporter.teleport(player, args[0]);
 	msg(player, "Teleported to " + ChatColor.GREEN + args[0]); // We do not want the waypoint to show colors. See Commandwaypoint.java

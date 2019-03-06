@@ -3,13 +3,12 @@ package com.orion31.Obsidian.commands;
 import java.util.Collections;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import com.orion31.Obsidian.ObsidianException;
 import com.orion31.Obsidian.player.ObsidianPlayer;
-
-import net.md_5.bungee.api.ChatColor;
 
 public class Commandnickname extends ObsidianCommand {
 
@@ -28,9 +27,9 @@ public class Commandnickname extends ObsidianCommand {
 	}
 
 	ObsidianPlayer target = getPlayer(args[1]);
-	target.setNick(args[0].replaceAll("_", " ") + "&r");
-	msgColor(target, "Your nickname is now " + target.getNick());
-	msgColor(sender, "Set " + target.getRealName() + "'s nickname to " + target.getNick());
+	target.setNick(args[0].replaceAll("_", " "));
+	msg(target, "Your nickname is now " + target.getNick());
+	msg(sender, "Set " + target.getRealName() + "'s nickname to " + target.getNick());
 	return true;
     }
 
@@ -45,8 +44,8 @@ public class Commandnickname extends ObsidianCommand {
 	}
 
 	if (args.length == 1) {
-	    player.setNick(args[0].replaceAll("_", " ") + "&r");
-	    msgColor(player, "Your nickname is now " + player.getNick());
+	    player.setNick(args[0].replaceAll("_", " "));
+	    msg(player, "Your nickname is now " + player.getNick());
 	    return true;
 	}
 	
