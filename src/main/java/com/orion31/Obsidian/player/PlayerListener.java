@@ -6,6 +6,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import com.orion31.Obsidian.Messenger;
@@ -69,6 +70,12 @@ public class PlayerListener extends Messenger implements Listener {
 	    e.setCancelled(true);
 	} catch (PlayerNotFoundException ignored) {
 	}
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent e) {
+	if (Teleporter.waypointExists("spawn"))
+	    e.setRespawnLocation(Teleporter.getWaypoint("spawn"));
     }
 
     @EventHandler

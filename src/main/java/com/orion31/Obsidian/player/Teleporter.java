@@ -2,8 +2,11 @@ package com.orion31.Obsidian.player;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.bukkit.Location;
+import org.bukkit.WorldCreator;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.Plugin;
@@ -17,9 +20,32 @@ public class Teleporter {
     public static void init(Plugin plugin) {
 	ObsidianYaml yaml = new ObsidianYaml("waypoints.yml");
 	for (String s : yaml.getKeys(false)) {
-	    Location location = new Location(plugin.getServer().getWorld(yaml.getString(s + ".world")),
-		    yaml.getDouble(s + ".x"), yaml.getDouble(s + ".y"), yaml.getDouble(s + ".z"));
+	    plugin.getServer().createWorld(new WorldCreator(yaml.getString(s + ".world"))); // Just in case Multiverse world isnt loaded.
+	    Location location = new Location(
+		    plugin.getServer().getWorld(yaml.getString(s + ".world")),
+		    yaml.getDouble(s + ".x"),
+		    yaml.getDouble(s + ".y"),
+		    yaml.getDouble(s + ".z"),
+		    yaml.getFloat(s + ".pitch"),
+		    yaml.getFloat(s + ".yaw"));
 	    setWaypoint(s, location);
+	}
+
+	yaml = new ObsidianYaml("signs.yml");
+	for (String s : yaml.getKeys(false)) {
+	    plugin.getServer().createWorld(new WorldCreator(yaml.getString(s + ".world"))); // Just in case Multiverse world isnt loaded.
+	    Location l = new Location(
+		    plugin.getServer().getWorld(yaml.getString(s + ".world")),
+		    yaml.getDouble(s + ".x"),
+		    yaml.getDouble(s + ".y"),
+		    yaml.getDouble(s + ".z"));
+	    try {
+		Block b = l.getBlock();
+		Sign sign = (Sign) b.getState();
+		teleportSigns.put(sign, yaml.getString(s + ".waypoint"));
+	    } catch (Exception e) {
+		continue;
+	    }
 	}
     }
 
@@ -31,6 +57,20 @@ public class Teleporter {
 	    yaml.set(entry.getKey() + ".x", entry.getValue().getX());
 	    yaml.set(entry.getKey() + ".y", entry.getValue().getY());
 	    yaml.set(entry.getKey() + ".z", entry.getValue().getZ());
+	    yaml.set(entry.getKey() + ".pitch", entry.getValue().getPitch());
+	    yaml.set(entry.getKey() + ".yaw", entry.getValue().getYaw());
+	}
+
+	yaml = new ObsidianYaml("signs.yml");
+	yaml.clear();
+	int index = 0;
+	for (Entry<Sign, String> entry : teleportSigns.entrySet()) {
+	    String s = "tp" + index;
+	    yaml.set(s + ".x", entry.getKey().getX());
+	    yaml.set(s + ".y", entry.getKey().getY());
+	    yaml.set(s + ".z", entry.getKey().getZ());
+	    yaml.set(s + ".world", entry.getKey().getWorld().getName());
+	    yaml.set(s + ".waypoint", entry.getValue());
 	}
     }
 
@@ -50,11 +90,15 @@ public class Teleporter {
 	return waypoints.containsKey(name);
     }
 
+    public static Set<String> getWaypointNames() {
+	return waypoints.keySet();
+    }
+
     public static void addTeleportSign(Sign sign, String waypoint) {
 	teleportSigns.put(sign, waypoint);
     }
 
-      public static String getWaypointFromSign(Sign sign) {
+    public static String getWaypointFromSign(Sign sign) {
 	return teleportSigns.get(sign);
     }
 

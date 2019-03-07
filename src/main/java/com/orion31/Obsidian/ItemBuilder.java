@@ -22,7 +22,8 @@ public class ItemBuilder {
     boolean glow = false;
     private boolean unbreakable = false;
     
-    public ItemBuilder() {
+    public ItemBuilder(Material material, int quantity) {
+	setItem(material, quantity);
     }
     
     public ItemBuilder(ItemStack itemStack) {

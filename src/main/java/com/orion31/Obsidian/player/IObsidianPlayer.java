@@ -33,6 +33,10 @@ public interface IObsidianPlayer {
     public Player getMirror();
     
     public void clearInventory();
+    
+    public void saveInventory();
+    
+    public void restoreInventory();
 
     public void sendMessage(String msg);
 

@@ -22,6 +22,7 @@ public class ObsidianYaml {
     }
     
     private void init() {
+	
 	yaml = YamlConfiguration.loadConfiguration(file);
     }
     
@@ -48,6 +49,10 @@ public class ObsidianYaml {
     
     public double getDouble(String path) {
 	return yaml.getDouble(path);
+    }
+
+    public float getFloat(String path) {
+	return ((float) yaml.getDouble(path));
     }
     
     public Set<String> getKeys(boolean deep) {

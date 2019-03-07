@@ -10,6 +10,7 @@ public class PlayerUpdater implements Runnable {
     public void run() {
 	for (ObsidianPlayer oPlayer : Obsidian.getObsidianPlayers()) {
 	    	Player player = oPlayer.getMirror();
+	    	
 		player.setDisplayName(oPlayer.getNick());
 		player.setPlayerListName(oPlayer.getNick());
 		

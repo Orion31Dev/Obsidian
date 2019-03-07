@@ -23,7 +23,7 @@ import com.orion31.Obsidian.player.ObsidianPlayer;
 import com.orion31.Obsidian.player.PlayerListener;
 import com.orion31.Obsidian.player.PlayerUpdater;
 import com.orion31.Obsidian.player.Teleporter;
-import com.orion31.Obsidian.world.BlockListener;
+import com.orion31.Obsidian.world.SignListener;
 
 public final class Obsidian extends JavaPlugin {
 
@@ -51,12 +51,27 @@ public final class Obsidian extends JavaPlugin {
 	CommandManager.registerCommands(this);
 
 	Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-	Bukkit.getServer().getPluginManager().registerEvents(new BlockListener(), this);
+	Bukkit.getServer().getPluginManager().registerEvents(new SignListener(), this);
 
 	console("Plugin Active.");
 	
 	BukkitScheduler scheduler = getServer().getScheduler();
 	scheduler.runTaskTimer(this, new PlayerUpdater(), 0L, 1L);
+	
+	// Register players on case of /reload
+	for (Player player : Bukkit.getOnlinePlayers()) {
+	    try {
+		    ObsidianPlayer oPlayer = Obsidian.getOfflinePlayer(player.getName());
+		    ObsidianYaml yml = new ObsidianYaml("players.yml");
+		    oPlayer.setNick(yml.getString(oPlayer.getRealName() + ".settings.nick"));
+		    oPlayer.setCanRunCommands(yml.getBool(oPlayer.getRealName() + ".settings.canRunCommands"));
+		    Obsidian.addPlayer(oPlayer);
+		    continue;
+		} catch (Exception ignored) {
+		}
+
+		Obsidian.addPlayer(new ObsidianPlayer(player));
+	}
 
     }
     

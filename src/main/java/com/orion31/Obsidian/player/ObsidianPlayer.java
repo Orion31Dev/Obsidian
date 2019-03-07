@@ -16,8 +16,11 @@ public class ObsidianPlayer implements IObsidianPlayer {
     private Player player = null;
     private PlayerSettings settings;
     
+    private PlayerInventory _inventory;
+    
     public ObsidianPlayer(Player player) {
 	this.player = player;
+	_inventory = player.getInventory();
 	settings = new PlayerSettings(player);
     }
     
@@ -79,6 +82,22 @@ public class ObsidianPlayer implements IObsidianPlayer {
     @Override
     public void clearInventory() {
 	player.getInventory().clear();
+    }
+    
+    @Override
+    public void saveInventory() {
+	_inventory = player.getInventory();
+    }
+    
+    @Override
+    public void restoreInventory() {
+        clearInventory();
+        player.getInventory().setArmorContents(_inventory.getArmorContents());
+        player.getInventory().setContents(_inventory.getContents());
+    }
+    
+    public void togglePvP() {
+	settings.togglePvp();
     }
     
     @Override

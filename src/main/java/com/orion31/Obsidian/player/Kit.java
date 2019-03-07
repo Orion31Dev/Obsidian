@@ -10,7 +10,8 @@ public class Kit {
     private ItemStack chestplate;
     private ItemStack leggings;
     private ItemStack boots;
-    private ItemStack[] mainItems;
+    private ItemStack mainItem;
+    private ItemStack[] otherItems;
 
     public Kit setHelmet(ItemStack helmet) {
 	this.helmet = helmet;
@@ -32,8 +33,13 @@ public class Kit {
 	return this;
     }
 
-    public Kit setMainItems(ItemStack... mainItems) {
-	this.mainItems = mainItems;
+    public Kit setMainItem(ItemStack mainItem) {
+	this.mainItem = mainItem;
+	return this;
+    }
+    
+    public Kit setOtherItems(ItemStack... otherItems) {
+	this.otherItems = otherItems;
 	return this;
     }
 
@@ -43,17 +49,20 @@ public class Kit {
 	player.getInventory().setChestplate(chestplate);
 	player.getInventory().setLeggings(leggings);
 	player.getInventory().setBoots(boots);
-	player.getInventory().setContents(mainItems);
+	player.getInventory().addItem(mainItem);
+	player.getInventory().addItem(otherItems);
+	player.getInventory().setHeldItemSlot(0);
     }
 
     public static Kit defaultIronKit() {
-	return new Kit().setHelmet(new ItemBuilder().setItem(Material.IRON_HELMET, 1).build())
-		.setChestplate(new ItemBuilder().setItem(Material.IRON_CHESTPLATE, 1).build())
-		.setLeggings(new ItemBuilder().setItem(Material.IRON_HELMET, 1).build())
-		.setBoots(new ItemBuilder().setItem(Material.IRON_HELMET, 1).build())
-		.setMainItems(new ItemBuilder().setItem(Material.IRON_SWORD, 1).build(),
-			new ItemBuilder().setItem(Material.BOW, 1).build(),
-			new ItemBuilder().setItem(Material.COOKED_BEEF, 64).build(),
-			new ItemBuilder().setItem(Material.ARROW, 64 * 2).build());
+	return new Kit().setHelmet(new ItemBuilder(Material.IRON_HELMET, 1).build())
+		.setChestplate(new ItemBuilder(Material.IRON_CHESTPLATE, 1).build())
+		.setLeggings(new ItemBuilder(Material.IRON_HELMET, 1).build())
+		.setBoots(new ItemBuilder(Material.IRON_HELMET, 1).build())
+		.setMainItem(new ItemBuilder(Material.IRON_SWORD, 1).build())
+		.setOtherItems(new ItemBuilder(Material.BOW, 1).build(),
+			new ItemBuilder(Material.COOKED_BEEF, 64).build(),
+			new ItemBuilder(Material.ARROW, 64).build(),
+			new ItemBuilder(Material.ARROW, 64).build());
     }
 }

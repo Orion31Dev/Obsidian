@@ -18,6 +18,7 @@ public class Commanddeletewaypoint extends ObsidianCommand {
     @Override
     public boolean run(CommandSender sender, Command cmd, String label, String[] args) throws ObsidianException {
 	if (args.length < 1) throw new InsufficientArgumentsException();
+	if (args[0].equalsIgnoreCase("spawn")) throw new ObsidianException("You cannot delete the spawn.");
 	if (!Teleporter.waypointExists(args[0]))
 	    throw new ObsidianException("Unknown waypoint: &c" + args[0]);
 	
