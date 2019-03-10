@@ -2,6 +2,7 @@ package com.orion31.Obsidian.player;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.orion31.Obsidian.ItemBuilder;
 
@@ -43,15 +44,17 @@ public class Kit {
 	return this;
     }
 
-    public void applyToPlayer(ObsidianPlayer player) {
-	player.clearInventory();
-	player.getInventory().setHelmet(helmet);
-	player.getInventory().setChestplate(chestplate);
-	player.getInventory().setLeggings(leggings);
-	player.getInventory().setBoots(boots);
-	player.getInventory().addItem(mainItem);
-	player.getInventory().addItem(otherItems);
-	player.getInventory().setHeldItemSlot(0);
+    public PlayerInventory getInventory(ObsidianPlayer player) {
+	PlayerInventory inv = player.getInventory();
+	inv.clear();
+	inv.setHelmet(helmet);
+	inv.setChestplate(chestplate);
+	inv.setLeggings(leggings);
+	inv.setBoots(boots);
+	inv.addItem(mainItem);
+	inv.addItem(otherItems);
+	inv.setHeldItemSlot(0);
+	return inv;
     }
 
     public static Kit defaultIronKit() {

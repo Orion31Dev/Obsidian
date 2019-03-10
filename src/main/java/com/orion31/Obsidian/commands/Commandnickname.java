@@ -29,7 +29,7 @@ public class Commandnickname extends ObsidianCommand {
 	ObsidianPlayer target = getPlayer(args[1]);
 	target.setNick(args[0].replaceAll("_", " "));
 	msg(target, "Your nickname is now " + target.getNick());
-	msg(sender, "Set " + target.getRealName() + "'s nickname to " + target.getNick());
+	msg(sender, "Set %s's nickname to " + target.getNick(), target.getRealName());
 	return true;
     }
 

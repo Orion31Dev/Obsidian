@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 
 import com.orion31.Obsidian.Obsidian;
 import com.orion31.Obsidian.ObsidianException;
+import com.orion31.Obsidian.player.Teleporter;
 
 public class Commandobsidian extends ObsidianCommand {
 
@@ -17,6 +18,7 @@ public class Commandobsidian extends ObsidianCommand {
 
     @Override
     public boolean run(CommandSender sender, Command cmd, String label, String[] args) throws ObsidianException {
+	Teleporter.init(Obsidian.getInstance());
 	if (args.length > 0 && args[0].equalsIgnoreCase("help")) {
 	    if (args.length > 1) {
 		ObsidianCommand oCmd = CommandManager.getCommand(args[1]); 

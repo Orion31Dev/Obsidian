@@ -1,11 +1,9 @@
 package com.orion31.Obsidian.player;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.bukkit.Location;
-import org.bukkit.WorldCreator;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.plugin.Plugin;
@@ -14,20 +12,13 @@ import com.orion31.Obsidian.ObsidianYaml;
 
 public class PvPHandler {
     private static HashMap<Sign, Kit> pvpSigns = new HashMap<Sign, Kit>();
-    private static ArrayList<Sign> endPvPSigns = new ArrayList<Sign>();
 
     public static void init(Plugin plugin) {
 	ObsidianYaml yaml = new ObsidianYaml("signs.yml");
 	for (String s : yaml.getKeys(false)) {
-	    if (!s.contains("pvp")) {
-		/*
-		 * 
-		 * TODO: CREATE WORLD BREAKS MULTIVERSE, FIX IMMEDIATELY
-		 * 
-		 */
-	    plugin.getServer().createWorld(new WorldCreator(yaml.getString(s + ".world"))); // Just in case Multiverse world isnt loaded.
-	    Location l = new Location(
-		    plugin.getServer().getWorld(yaml.getString(s + ".world")),
+	    if (!s.startsWith("pvp"))
+		continue;
+	    Location l = new Location(plugin.getServer().getWorld(yaml.getString(s + ".world")),
 		    yaml.getDouble(s + ".x"),
 		    yaml.getDouble(s + ".y"),
 		    yaml.getDouble(s + ".z"));
@@ -38,24 +29,23 @@ public class PvPHandler {
 	    } catch (Exception e) {
 		continue;
 	    }
-	    }
 	}
     }
-    
+
     public static void save() {
-	ObsidianYaml yaml = new ObsidianYaml("signs.yml");
-	yaml.clear();
+	ObsidianYaml yaml = new ObsidianYaml("signs.yml"); // Teleporter already cleared file so we do not clear here.
 	int index = 0;
 	for (Entry<Sign, Kit> entry : pvpSigns.entrySet()) {
-	    String s = "pvp" + index;
+	    String s = "pvp" + index++;
 	    yaml.set(s + ".x", entry.getKey().getX());
 	    yaml.set(s + ".y", entry.getKey().getY());
 	    yaml.set(s + ".z", entry.getKey().getZ());
 	    yaml.set(s + ".world", entry.getKey().getWorld().getName());
 	    // yaml.set(s + ".kit", entry.getValue().getName()); // TODO implement kits
 	}
+	yaml.save();
     }
-    
+
     public static void addPvPSign(Sign sign, Kit kit) {
 	pvpSigns.put(sign, kit);
     }
@@ -70,17 +60,5 @@ public class PvPHandler {
 
     public static boolean pvpSignExists(Sign sign) {
 	return pvpSigns.containsKey(sign);
-    }
-    
-    public static void addEndPvPSign(Sign sign) {
-	endPvPSigns.add(sign);
-    }
-
-    public static void deleteEndPvPSign(Sign sign) {
-	endPvPSigns.remove(sign);
-    }
-
-    public static boolean endPvPSignExists(Sign sign) {
-	return endPvPSigns.contains(sign);
     }
 }

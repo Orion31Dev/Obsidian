@@ -16,7 +16,7 @@ commands:
     aliases: [gm, mode, g, setgamemode]
   goto:
     description: Go to a waypoint
-    usage: /goto <name>
+    usage: /goto <name> [player]
     aliases: [warp, gotoway, gotopoint, gotowaypoint, tpway, tppoint, tpwaypoint]
   listwaypoints:
     description: List all available waypoints

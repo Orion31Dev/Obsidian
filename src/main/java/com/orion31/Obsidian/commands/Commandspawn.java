@@ -18,7 +18,7 @@ public class Commandspawn extends ObsidianCommand {
 	if (args.length < 1) throw new InsufficientArgumentsException();
 	if (!Teleporter.waypointExists("spawn"))
 	    throw new ObsidianException("Could not find spawn (/setspawn)");
-	ObsidianPlayer target = getPlayer(args[1]);
+	ObsidianPlayer target = getPlayer(args[0]);
 	Teleporter.teleport(target, "spawn");
 	return true;
     }
@@ -31,7 +31,7 @@ public class Commandspawn extends ObsidianCommand {
 	    Teleporter.teleport(player, "spawn");
 	    return true;
 	}
-	return run(player, cmd, label, args);
+	return run(player.getMirror(), cmd, label, args);
     }
 
 }
