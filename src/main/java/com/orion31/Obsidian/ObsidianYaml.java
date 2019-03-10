@@ -3,6 +3,7 @@ package com.orion31.Obsidian;
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -22,6 +23,7 @@ public class ObsidianYaml {
     }
     
     private void init() {
+	
 	yaml = YamlConfiguration.loadConfiguration(file);
     }
     
@@ -49,9 +51,24 @@ public class ObsidianYaml {
     public double getDouble(String path) {
 	return yaml.getDouble(path);
     }
+
+    public float getFloat(String path) {
+	return ((float) yaml.getDouble(path));
+    }
+    
+    public UUID getUUID(String path) {
+	return UUID.fromString(getString(path));
+    }
     
     public Set<String> getKeys(boolean deep) {
 	return yaml.getKeys(deep);
+    }
+    
+    public void clear() {
+	String fileName = file.getName();
+	file.delete();
+	file = new File(Obsidian.getInstance().getDataFolder(), fileName);
+	init();
     }
     
     public void save() {

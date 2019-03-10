@@ -3,29 +3,43 @@ main: com.orion31.Obsidian.Obsidian
 version: 1.0
 commands:
   blockcommands:
-    description: Toggle a player's ability to run commands.
+    description: Toggle a player's ability to run commands
     usage: /blockcommands <player>
     aliases: [bcmd, blockcmds, tcmd, togglecmds, togglecommands]
+  deletewaypoint:
+    description: Delete a waypoint
+    usage: /deletewaypoint <waypoint>
+    aliases: [dwarp, delwarp, dpoint, delpoint, dloc, delloc, delwaypoint]
   gamemode:
     description: Change a player's gamemode
     usage: /gamemode <gamemode> [player]
     aliases: [gm, mode, g, setgamemode]
   goto:
-    description: Go to a waypoint.
-    usage: /goto <name>
-    aliases: [gotoway, gotopoint, gotowaypoint, tpway, tppoint, tpwaypoint]
-  obsidian:
-    description: Base Command for Obsidian
-    usage: /obsidian [help] [command]
+    description: Go to a waypoint
+    usage: /goto <name> [player]
+    aliases: [warp, gotoway, gotopoint, gotowaypoint, tpway, tppoint, tpwaypoint]
+  listwaypoints:
+    description: List all available waypoints
+    usage: /listwaypoints
+    aliases: [warps, getwarps, listwarps, getpoints, listpoints, gettps, listtps, getwaypoints]
   nickname:
     description: Change a player's nickname
     usage: /nickname <nickname> [player]
     aliases: [nick, name, displayname]
+  obsidian:
+    description: Base command for Obsidian
+    usage: /obsidian [help] [command]
   ping:
-    description: Test Command.
+    description: Test command
     usage: /ping
     aliases: [test]
+  setspawn:
+    description: Create spawn waypoint accessable on death or with /spawn
+    usage: /setspawn
+  spawn:
+    description: Go to spawn waypoint
+    usage: /spawn
   waypoint:
-    description: Create a waypoint.
+    description: Create a waypoint
     usage: /waypoint <name>
-    aliases: [point, loc, setpoint, setloc, setwaypoint]
+    aliases: [setwarp, createwarp, point, loc, setpoint, setloc, setwaypoint]

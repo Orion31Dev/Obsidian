@@ -17,7 +17,7 @@ public class Commandping extends ObsidianCommand {
 
     @Override
     public boolean run(CommandSender sender, Command cmd, String label, String[] args) {
-	Messenger.msgColor(sender, "Pong!");
+	Messenger.msg(sender, "Pong!");
 	return true;
     }
 

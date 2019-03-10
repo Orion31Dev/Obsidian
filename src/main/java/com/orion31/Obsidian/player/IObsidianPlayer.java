@@ -7,6 +7,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 public interface IObsidianPlayer {
     public String getNick();
@@ -16,6 +17,8 @@ public interface IObsidianPlayer {
     public String getRealName();
     
     public GameMode getGamemode();
+    
+    public Inventory getInventory();
     
     public Location getLocation();
     
@@ -28,6 +31,12 @@ public interface IObsidianPlayer {
     public InetSocketAddress getIP();
     
     public Player getMirror();
+    
+    public void clearInventory();
+    
+    public void saveInventory();
+    
+    public void restoreInventory();
 
     public void sendMessage(String msg);
 

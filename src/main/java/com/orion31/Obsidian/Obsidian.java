@@ -22,8 +22,9 @@ import com.orion31.Obsidian.commands.CommandManager;
 import com.orion31.Obsidian.player.ObsidianPlayer;
 import com.orion31.Obsidian.player.PlayerListener;
 import com.orion31.Obsidian.player.PlayerUpdater;
+import com.orion31.Obsidian.player.PvPHandler;
 import com.orion31.Obsidian.player.Teleporter;
-import com.orion31.Obsidian.world.BlockListener;
+import com.orion31.Obsidian.world.SignListener;
 
 public final class Obsidian extends JavaPlugin {
 
@@ -47,22 +48,47 @@ public final class Obsidian extends JavaPlugin {
     public void onEnable() {
 	registerGlow();
 
-	Teleporter.init(this);
-	CommandManager.registerCommands(this);
+	CommandManager.registerCommands(_instance);
 
 	Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-	Bukkit.getServer().getPluginManager().registerEvents(new BlockListener(), this);
+	Bukkit.getServer().getPluginManager().registerEvents(new SignListener(), this);
 
-	console("[Lottery] Plugin Active.");
-	
+	console("Plugin Active.");
+
 	BukkitScheduler scheduler = getServer().getScheduler();
 	scheduler.runTaskTimer(this, new PlayerUpdater(), 0L, 1L);
 
+	// Register players on case of /reload
+	for (Player player : Bukkit.getOnlinePlayers()) {
+	    try {
+		ObsidianPlayer oPlayer = Obsidian.getOfflinePlayer(player.getName());
+		ObsidianYaml yml = new ObsidianYaml("players.yml");
+		oPlayer.setNick(yml.getString(oPlayer.getRealName() + ".settings.nick"));
+		oPlayer.setCanRunCommands(yml.getBool(oPlayer.getRealName() + ".settings.canRunCommands"));
+		Obsidian.addPlayer(oPlayer);
+		continue;
+	    } catch (Exception ignored) {
+	    }
+
+	    Obsidian.addPlayer(new ObsidianPlayer(player));
+	}
+
+	// wait for multiverse
+	Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+
+	    @Override
+	    public void run() {
+		Teleporter.init(_instance);
+		PvPHandler.init(_instance);
+	    }
+	}, 20L);
+
     }
-    
+
     @Override
     public void onDisable() {
-        Teleporter.save();
+	Teleporter.save();
+	PvPHandler.save();
     }
 
     @Override
@@ -110,10 +136,14 @@ public final class Obsidian extends JavaPlugin {
 	}
 	throw new PlayerNotFoundException(uuid.toString());
     }
-
+  
     public static ObsidianPlayer getPlayer(String name) throws PlayerNotFoundException {
 	for (ObsidianPlayer player : onlinePlayers) {
 	    if (player.getRealName().equalsIgnoreCase(name))
+		return player;
+	}
+	for (ObsidianPlayer player : onlinePlayers) {
+	    if (player.getRealName().toLowerCase().startsWith(name.toLowerCase()))
 		return player;
 	}
 	throw new PlayerNotFoundException(name);
@@ -121,13 +151,15 @@ public final class Obsidian extends JavaPlugin {
 
     public static ObsidianPlayer getOfflinePlayer(String name) throws PlayerNotFoundException {
 	ObsidianYaml playersYaml = new ObsidianYaml("players.yml");
-	if (playersYaml.get(name) == null) throw new PlayerNotFoundException(name);
-	ObsidianPlayer player = new ObsidianPlayer((Player) Bukkit.getOfflinePlayer(UUID.fromString(playersYaml.getString(name + ".uuid"))));
+	if (playersYaml.get(name) == null)
+	    throw new PlayerNotFoundException(name);
+	ObsidianPlayer player = new ObsidianPlayer(
+		(Player) Bukkit.getOfflinePlayer(UUID.fromString(playersYaml.getString(name + ".uuid"))));
 	player.setNick(playersYaml.getString(name + ".settings.nick"));
 	player.setCanRunCommands(playersYaml.getBool(name + ".settings.canRunCommands"));
 	return player;
     }
-    
+
     public static boolean hasStoredData(String name) {
 	try {
 	    getOfflinePlayer(name);
@@ -136,7 +168,7 @@ public final class Obsidian extends JavaPlugin {
 	}
 	return true;
     }
-    
+
     public static List<String> getPlayers() {
 	List<String> playerNames = new ArrayList<String>();
 	for (ObsidianPlayer o : onlinePlayers) {
@@ -144,7 +176,7 @@ public final class Obsidian extends JavaPlugin {
 	}
 	return playerNames;
     }
-    
+
     public static List<ObsidianPlayer> getOfflinePlayers() {
 	List<ObsidianPlayer> players = new ArrayList<ObsidianPlayer>();
 	ObsidianYaml playersYaml = new ObsidianYaml("players.yml");
@@ -157,7 +189,7 @@ public final class Obsidian extends JavaPlugin {
 	}
 	return players;
     }
-    
+
     public static List<ObsidianPlayer> getObsidianPlayers() {
 	return onlinePlayers;
     }

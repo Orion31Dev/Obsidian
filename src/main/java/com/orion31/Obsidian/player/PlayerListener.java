@@ -6,6 +6,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import com.orion31.Obsidian.Messenger;
@@ -13,7 +14,7 @@ import com.orion31.Obsidian.Obsidian;
 import com.orion31.Obsidian.ObsidianYaml;
 import com.orion31.Obsidian.PlayerNotFoundException;
 
-public class PlayerListener implements Listener {
+public class PlayerListener extends Messenger implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
@@ -23,20 +24,20 @@ public class PlayerListener implements Listener {
 	    player.setNick(yml.getString(player.getRealName() + ".settings.nick"));
 	    player.setCanRunCommands(yml.getBool(player.getRealName() + ".settings.canRunCommands"));
 	    Obsidian.addPlayer(player);
-	    Messenger.motd(e.getPlayer());
-	    e.setJoinMessage(Messenger.color(player.getNick() + "&r&a joined."));
+	    motd(e.getPlayer());
+	    e.setJoinMessage(color(player.getNick() + "&r&a joined."));
 	    return;
 	} catch (Exception ignored) {
 	}
 
 	Obsidian.addPlayer(new ObsidianPlayer(e.getPlayer()));
-	Messenger.motd(e.getPlayer());
-	e.setJoinMessage(Messenger.color(e.getPlayer().getDisplayName() + "&r&a joined."));
+	motd(e.getPlayer());
+	e.setJoinMessage(color(e.getPlayer().getDisplayName() + "&r&a joined."));
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-	e.setQuitMessage(Messenger.color(e.getPlayer().getDisplayName() + "&r&4 left."));
+	e.setQuitMessage(color(e.getPlayer().getDisplayName() + "&r&4 left."));
 
 	try {
 	    ObsidianPlayer player = Obsidian.getPlayer(e.getPlayer().getName());
@@ -57,7 +58,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e) {
 	e.setCancelled(true);
-	Messenger.ghostAllColor(e.getPlayer().getDisplayName() + "&r: " + e.getMessage());
+	ghostAllColor(e.getPlayer().getDisplayName() + "&r: " + e.getMessage());
     }
 
     @EventHandler
@@ -65,10 +66,16 @@ public class PlayerListener implements Listener {
 	try {
 	    if (Obsidian.getPlayer(e.getPlayer().getUniqueId()).getCanRunCommands())
 		return;
-	    Messenger.msgColor(e.getPlayer(), "You cannot run commands.");
+	    msg(e.getPlayer(), "You cannot run commands.");
 	    e.setCancelled(true);
 	} catch (PlayerNotFoundException ignored) {
 	}
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent e) {
+	if (Teleporter.waypointExists("spawn"))
+	    e.setRespawnLocation(Teleporter.getWaypoint("spawn"));
     }
 
     @EventHandler
@@ -77,13 +84,13 @@ public class PlayerListener implements Listener {
 	    ObsidianYaml yml = new ObsidianYaml("players.yml");
 	    for (String name : yml.getKeys(false)) {
 		if (yml.getString(name + ".ip").equals(e.getAddress().toString())) {
-		    e.setMotd(Messenger.color("&3&lC&a&lT&3&lC&a&lM&3&lS" + "\nLook here, &a&l" + name));
+		    e.setMotd(color("&3&lC&a&lT&3&lC&a&lM&3&lS" + "\nLook here, &a&l" + name));
 		    return;
 		}
 	    }
 	} catch (Exception ignored) {
 	}
 
-	e.setMotd(Messenger.color("&3&lC&a&lT&3&lC&a&lM&3&lS"));
+	e.setMotd(color("&3&lC&a&lT&3&lC&a&lM&3&lS"));
     }
 }

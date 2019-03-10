@@ -22,14 +22,14 @@ public class Commandblockcommands extends ObsidianCommand {
         ObsidianPlayer target = getPlayer(args[0]);
         if (target.getCanRunCommands()) {
             target.setCanRunCommands(false);
-            msgColor(sender, target.getNick() + " can no longer run commands.");
-            msgColor(target, "You can no longer run commands. Contact admins if you believe this is an error.");
+            msg(sender, target.getNick() + " can no longer run commands.");
+            msg(target, "You can no longer run commands. Contact admins if you believe this is an error.");
             return true;
         }
         
         target.setCanRunCommands(true);
-        msgColor(sender, target.getNick() + " can now run commands.");
-        msgColor(target, "You may run commands again");
+        msg(sender, target.getNick() + " can now run commands.");
+        msg(target, "You may run commands again");
         return true;
         
     }
