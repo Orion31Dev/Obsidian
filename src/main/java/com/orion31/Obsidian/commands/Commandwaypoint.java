@@ -1,5 +1,8 @@
 package com.orion31.Obsidian.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.command.Command;
 
 import com.orion31.Obsidian.ObsidianException;
@@ -24,8 +27,15 @@ public class Commandwaypoint extends ObsidianCommand {
     public boolean run(ObsidianPlayer player, Command cmd, String label, String[] args) throws ObsidianException {
 	if (args.length < 1) throw new InsufficientArgumentsException();
 	if (args[0].equalsIgnoreCase("spawn")) throw new ObsidianException("Set spawn with /setspawn.");
+	if (args[0].contains("&")) msg(player, "Remember, color codes are not supported in waypoint names.");
 	Teleporter.setWaypoint(args[0], player.getLocation());
 	msg(player, "Waypoint " + ChatColor.GREEN + args[0] + ChatColor.RESET + " created at your location.");
         return true;
+    }
+    
+    @Override
+    public List<String> tabComplete(ObsidianPlayer player, Command command, String alias, String[] args)
+            throws ObsidianException {
+        return new ArrayList<>(Teleporter.getWaypointNames());
     }
 }

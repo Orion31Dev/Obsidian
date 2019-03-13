@@ -6,6 +6,10 @@ commands:
     description: Toggle a player's ability to run commands
     usage: /blockcommands <player>
     aliases: [bcmd, blockcmds, tcmd, togglecmds, togglecommands]
+  createparkour:
+    description: Create a parkour course
+    usage: /createparkour
+    aliases: [createcourse, cpk, createparkourcourse]
   deletewaypoint:
     description: Delete a waypoint
     usage: /deletewaypoint <waypoint>
@@ -29,6 +33,10 @@ commands:
   obsidian:
     description: Base command for Obsidian
     usage: /obsidian [help] [command]
+  parkour:
+    description: Enter parkour mode
+    usage: /parkour
+    aliases: [pk]
   ping:
     description: Test command
     usage: /ping

@@ -15,15 +15,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.orion31.Obsidian.commands.CommandManager;
 import com.orion31.Obsidian.player.ObsidianPlayer;
+import com.orion31.Obsidian.player.PvPManager;
 import com.orion31.Obsidian.player.PlayerListener;
 import com.orion31.Obsidian.player.PlayerUpdater;
-import com.orion31.Obsidian.player.PvPHandler;
 import com.orion31.Obsidian.player.Teleporter;
+import com.orion31.Obsidian.player.games.Game;
 import com.orion31.Obsidian.world.SignListener;
 
 public final class Obsidian extends JavaPlugin {
@@ -53,6 +55,18 @@ public final class Obsidian extends JavaPlugin {
 	Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 	Bukkit.getServer().getPluginManager().registerEvents(new SignListener(), this);
 
+	// Register Games
+	for (Game g : Game.values()) {
+	    try {
+		Bukkit.getServer().getPluginManager()
+		    .registerEvents((Listener) Obsidian.class.getClassLoader()
+			    .loadClass("com.orion31.Obsidian.player.games.Listener" + g.toString().toLowerCase())
+			    .getDeclaredConstructor().newInstance(), this);
+	    } catch (Exception e) {
+		continue;
+	    }
+	}
+
 	console("Plugin Active.");
 
 	BukkitScheduler scheduler = getServer().getScheduler();
@@ -79,7 +93,7 @@ public final class Obsidian extends JavaPlugin {
 	    @Override
 	    public void run() {
 		Teleporter.init(_instance);
-		PvPHandler.init(_instance);
+		PvPManager.init(_instance);
 	    }
 	}, 20L);
 
@@ -88,7 +102,7 @@ public final class Obsidian extends JavaPlugin {
     @Override
     public void onDisable() {
 	Teleporter.save();
-	PvPHandler.save();
+	PvPManager.save();
     }
 
     @Override
@@ -136,7 +150,7 @@ public final class Obsidian extends JavaPlugin {
 	}
 	throw new PlayerNotFoundException(uuid.toString());
     }
-  
+
     public static ObsidianPlayer getPlayer(String name) throws PlayerNotFoundException {
 	for (ObsidianPlayer player : onlinePlayers) {
 	    if (player.getRealName().equalsIgnoreCase(name))
