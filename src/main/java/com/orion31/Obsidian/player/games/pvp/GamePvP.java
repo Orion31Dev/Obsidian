@@ -1,10 +1,11 @@
-package com.orion31.Obsidian.player.games;
+package com.orion31.Obsidian.player.games.pvp;
 
 import org.bukkit.inventory.PlayerInventory;
 
 import com.orion31.Obsidian.player.Kit;
-import com.orion31.Obsidian.player.ObsidianPlayer;
 import com.orion31.Obsidian.player.PlayerSettings;
+import com.orion31.Obsidian.player.games.Game;
+import com.orion31.Obsidian.player.games.ObsidianGame;
 
 public class GamePvP extends ObsidianGame {
 
@@ -21,8 +22,7 @@ public class GamePvP extends ObsidianGame {
     }
     
     @Override
-    public PlayerInventory getInventory(ObsidianPlayer player) {
+    public PlayerInventory getInventory() {
         return kit.getInventory(player);
     }
-    
 }

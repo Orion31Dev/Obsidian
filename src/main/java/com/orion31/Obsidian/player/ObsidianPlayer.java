@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -14,11 +15,12 @@ import com.orion31.Obsidian.Messenger;
 import com.orion31.Obsidian.player.games.Game;
 import com.orion31.Obsidian.player.games.ObsidianGame;
 
-public class ObsidianPlayer implements IObsidianPlayer {
+public class ObsidianPlayer {
     
     private Player player = null;
     private PlayerSettings settings;
-    private Game game;
+    private ObsidianGame game;
+    private Game gameType = Game.NONE;
     private String nick;
     
     private ItemStack[] _inventoryCache;
@@ -31,120 +33,123 @@ public class ObsidianPlayer implements IObsidianPlayer {
 	settings = new PlayerSettings(player);
     }
     
-    @Override
     public String getNick() {
 	return Messenger.color(nick + "&r");
     }
 
-    @Override
     public String getNickRaw() {
 	return nick;
     }
     
-    @Override
     public String getRealName() {
 	return player.getName();
     }
     
-    @Override
     public Location getLocation() {
 	return player.getLocation();
     }
     
-    @Override
     public GameMode getGamemode() {
 	return settings.gamemode;
     } 
 
-    @Override
     public PlayerInventory getInventory() {
 	return player.getInventory();
     }
     
-    @Override
     public boolean getCanRunCommands() {
         return settings.canRunCommands;
     }
     
-    @Override
     public PlayerSettings getSettings() {
 	return settings;
     }
     
-    @Override
     public InetSocketAddress getIP() {
 	return player.getAddress();
     }
     
-    @Override
     public UUID getUUID() {
 	return player.getUniqueId();
     }
     
-    @Override
     public Player getMirror() {
 	return player;
     }
     
-    @Override
+    public void playSound(Sound sound, float volume, float pitch) {
+	player.playSound(player.getLocation(), sound, volume, pitch);
+    }
+    
+    public void playSound(Sound sound, float volume) {
+	player.playSound(player.getLocation(), sound, volume, 1f);
+    }
+    
+    public void playSound(Sound sound) {
+	player.playSound(player.getLocation(), sound, 1f, 1f);
+    }
+    
     public void clearInventory() {
 	player.getInventory().clear();
     }
     
-    @Override
     public void saveInventory() {
 	_inventoryCache = player.getInventory().getContents();
     }
     
-    @Override
     public void restoreInventory() {
 	player.getInventory().setContents(_inventoryCache);
     }
     
     public void setGame(ObsidianGame game) {
+	this.game = game;
+	game.setPlayer(this);
+	gameType = game.getGameType();
 	_settingsCache = settings;
 	settings = game.getSettings();
 	saveInventory();
-	player.getInventory().setContents(game.getInventory(this).getContents());
+	player.getInventory().setContents(game.getInventory().getContents());
     }
     
     public void endGame() {
 	settings = _settingsCache;
-	game = Game.NONE;
+	gameType = Game.NONE;
 	restoreInventory();
     }
     
-    public Game getGame() {
+    public ObsidianGame getGame() {
 	return game;
     }
     
-    @Override
+    public Game getGameType() {
+	return gameType;
+    }
+    
     public void sendMessage(String msg) {
 	player.sendMessage(msg);
     }    
     
-    @Override
     public void setNick(String name) {
 	nick = name;
     }
     
-    @Override
     public void setGamemode(GameMode gamemode) {
 	settings.gamemode = gamemode;
     }
     
-    @Override
     public void setCanRunCommands(boolean canRunCommands) {
 	settings.canRunCommands = canRunCommands;
     }
     
-    @Override
     public void teleport(Location location) {
 	player.teleport(location);
     }
     
-    @Override
     public void teleport(Entity entity) {
 	player.teleport(entity);
+    }
+    
+    public boolean isCrouching() {
+	return player.isSneaking();
     }
 }

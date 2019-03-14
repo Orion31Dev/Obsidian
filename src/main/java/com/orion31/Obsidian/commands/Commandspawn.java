@@ -15,11 +15,14 @@ public class Commandspawn extends ObsidianCommand {
 
     @Override
     public boolean run(CommandSender sender, Command cmd, String label, String[] args) throws ObsidianException {
-	if (args.length < 1) throw new InsufficientArgumentsException();
+	if (args.length < 1)
+	    throw new InsufficientArgumentsException();
 	if (!Teleporter.waypointExists("spawn"))
 	    throw new ObsidianException("Could not find spawn (/setspawn)");
 	ObsidianPlayer target = getPlayer(args[0]);
 	Teleporter.teleport(target, "spawn");
+	msgColor(target, "You were teleported to &aspawn");
+	msgColor(sender, "Teleported %s to &aspawn", target.getNick());
 	return true;
     }
 
@@ -29,6 +32,7 @@ public class Commandspawn extends ObsidianCommand {
 	    if (!Teleporter.waypointExists("spawn"))
 		throw new ObsidianException("Could not find spawn (/setspawn)");
 	    Teleporter.teleport(player, "spawn");
+	    msgColor(player, "Teleported to &aspawn");
 	    return true;
 	}
 	return run(player.getMirror(), cmd, label, args);

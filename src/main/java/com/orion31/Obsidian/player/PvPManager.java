@@ -10,7 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.orion31.Obsidian.ObsidianYaml;
 
-public class PvPHandler {
+public class PvPManager {
     private static HashMap<Sign, Kit> pvpSigns = new HashMap<Sign, Kit>();
 
     public static void init(Plugin plugin) {

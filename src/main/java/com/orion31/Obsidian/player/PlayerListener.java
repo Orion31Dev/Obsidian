@@ -13,6 +13,7 @@ import com.orion31.Obsidian.Messenger;
 import com.orion31.Obsidian.Obsidian;
 import com.orion31.Obsidian.ObsidianYaml;
 import com.orion31.Obsidian.PlayerNotFoundException;
+import com.orion31.Obsidian.player.games.Game;
 
 public class PlayerListener extends Messenger implements Listener {
 
@@ -56,7 +57,11 @@ public class PlayerListener extends Messenger implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent e) {
+    public void onPlayerChat(AsyncPlayerChatEvent e) throws PlayerNotFoundException {
+	if (e.isCancelled())
+	    return;
+	if (Obsidian.getPlayer(e.getPlayer().getUniqueId()).getGameType() == Game.CREATEPARKOURCOURSE)
+	    return; // Game handles chat itself;
 	e.setCancelled(true);
 	ghostAllColor(e.getPlayer().getDisplayName() + "&r: " + e.getMessage());
     }
@@ -73,8 +78,9 @@ public class PlayerListener extends Messenger implements Listener {
     }
 
     @EventHandler
-    public void onPlayerRespawn(PlayerRespawnEvent e) {
-	if (Teleporter.waypointExists("spawn"))
+    public void onPlayerRespawn(PlayerRespawnEvent e) throws PlayerNotFoundException {
+	if (Teleporter.waypointExists("spawn")
+		&& Obsidian.getPlayer(e.getPlayer().getUniqueId()).getGameType() == Game.NONE)
 	    e.setRespawnLocation(Teleporter.getWaypoint("spawn"));
     }
 
@@ -84,7 +90,7 @@ public class PlayerListener extends Messenger implements Listener {
 	    ObsidianYaml yml = new ObsidianYaml("players.yml");
 	    for (String name : yml.getKeys(false)) {
 		if (yml.getString(name + ".ip").equals(e.getAddress().toString())) {
-		    e.setMotd(color("&3&lC&a&lT&3&lC&a&lM&3&lS" + "\nLook here, &a&l" + name));
+		    e.setMotd(color("&3&lC&a&lT&3&lC&a&lM&3&lS" + "\nWe want you, &a&l" + name));
 		    return;
 		}
 	    }

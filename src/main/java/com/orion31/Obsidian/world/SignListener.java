@@ -13,9 +13,9 @@ import com.orion31.Obsidian.Obsidian;
 import com.orion31.Obsidian.PlayerNotFoundException;
 import com.orion31.Obsidian.player.Kit;
 import com.orion31.Obsidian.player.ObsidianPlayer;
-import com.orion31.Obsidian.player.PvPHandler;
+import com.orion31.Obsidian.player.PvPManager;
 import com.orion31.Obsidian.player.Teleporter;
-import com.orion31.Obsidian.player.games.GamePvP;
+import com.orion31.Obsidian.player.games.pvp.GamePvP;
 
 public class SignListener extends Messenger implements Listener {
 
@@ -46,7 +46,7 @@ public class SignListener extends Messenger implements Listener {
 		return;
 	    }
 	    Teleporter.addTeleportSign((Sign) e.getBlock().getState(), waypoint);
-	    PvPHandler.addPvPSign((Sign) e.getBlock().getState(), Kit.defaultIronKit());
+	    PvPManager.addPvPSign((Sign) e.getBlock().getState(), Kit.defaultIronKit());
 	    e.setLine(0, color("&5&lEnter PvP"));
 	    e.setLine(1, color("&a" + waypoint));
 	    e.setLine(2, "");
@@ -102,7 +102,7 @@ public class SignListener extends Messenger implements Listener {
 	    return;
 	}
 	
-	if (PvPHandler.pvpSignExists(sign)) {
+	if (PvPManager.pvpSignExists(sign)) {
 	    if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 		Teleporter.teleport(e.getPlayer(),
 			Teleporter.getWaypointFromSign(sign));
@@ -110,7 +110,7 @@ public class SignListener extends Messenger implements Listener {
 		msg(e.getPlayer(), "Entered PvP zone " + ChatColor.DARK_RED
 			+ Teleporter.getWaypointFromSign(sign));
 	    } else if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
-		PvPHandler.deletePvPSign(sign);
+		PvPManager.deletePvPSign(sign);
 		Teleporter.deleteTeleportSign(sign);
 		msg(e.getPlayer(), "PvP sign deleted.");
 		e.getClickedBlock().breakNaturally();

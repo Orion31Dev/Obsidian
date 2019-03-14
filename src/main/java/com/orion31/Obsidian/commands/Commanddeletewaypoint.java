@@ -12,8 +12,6 @@ public class Commanddeletewaypoint extends ObsidianCommand {
     public Commanddeletewaypoint() {
 	super("deletewaypoint");
     }
-
-    
     
     @Override
     public boolean run(CommandSender sender, Command cmd, String label, String[] args) throws ObsidianException {
