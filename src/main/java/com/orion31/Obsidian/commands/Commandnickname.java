@@ -3,7 +3,6 @@ package com.orion31.Obsidian.commands;
 import java.util.Collections;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -22,8 +21,8 @@ public class Commandnickname extends ObsidianCommand {
 	    throw new InsufficientArgumentsException();
 	}
 
-	if (ChatColor.stripColor(color(args[0])).length() >= 13) {
-	    throw new ObsidianException("Nickname must be less than 13 characters, excluding color codes.");
+	if (stripColorCodes(args[0]).length() >= 20) {
+	    throw new ObsidianException("Nickname must be less than 20 characters, excluding color codes.");
 	}
 
 	ObsidianPlayer target = getPlayer(args[1]);
@@ -39,8 +38,8 @@ public class Commandnickname extends ObsidianCommand {
 	    throw new InsufficientArgumentsException();
 	}
 
-	if (ChatColor.stripColor(color(args[0])).length() >= 13) {
-	    throw new ObsidianException("Nickname must be less than 13 characters, excluding color codes.");
+	if (stripColorCodes(args[0]).length() >= 20) {
+	    throw new ObsidianException("Nickname must be less than 20 characters, excluding color codes.");
 	}
 
 	if (args.length == 1) {

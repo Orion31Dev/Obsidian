@@ -57,7 +57,11 @@ public class PlayerListener extends Messenger implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent e) {
+    public void onPlayerChat(AsyncPlayerChatEvent e) throws PlayerNotFoundException {
+	if (e.isCancelled())
+	    return;
+	if (Obsidian.getPlayer(e.getPlayer().getUniqueId()).getGameType() == Game.CREATEPARKOURCOURSE)
+	    return; // Game handles chat itself;
 	e.setCancelled(true);
 	ghostAllColor(e.getPlayer().getDisplayName() + "&r: " + e.getMessage());
     }
@@ -75,7 +79,8 @@ public class PlayerListener extends Messenger implements Listener {
 
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent e) throws PlayerNotFoundException {
-	if (Teleporter.waypointExists("spawn") && Obsidian.getPlayer(e.getPlayer().getUniqueId()).getGameType() == Game.NONE)
+	if (Teleporter.waypointExists("spawn")
+		&& Obsidian.getPlayer(e.getPlayer().getUniqueId()).getGameType() == Game.NONE)
 	    e.setRespawnLocation(Teleporter.getWaypoint("spawn"));
     }
 

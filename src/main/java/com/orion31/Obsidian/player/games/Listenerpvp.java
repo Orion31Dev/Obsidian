@@ -2,6 +2,7 @@ package com.orion31.Obsidian.player.games;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.orion31.Obsidian.Obsidian;
@@ -20,5 +21,14 @@ public class Listenerpvp implements Listener {
 	    else
 		e.setRespawnLocation(Teleporter.getWaypoint("spawn"));
 	}
+    }
+    
+    @EventHandler
+    public void onPlayerDrop(PlayerDropItemEvent e) throws PlayerNotFoundException {
+	ObsidianPlayer player = Obsidian.getPlayer(e.getPlayer().getUniqueId());
+	if (player.getGameType() != Game.PVP)
+	    return;
+	
+	e.setCancelled(true);
     }
 }

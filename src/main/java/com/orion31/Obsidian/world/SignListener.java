@@ -48,7 +48,7 @@ public class SignListener extends Messenger implements Listener {
 	    Teleporter.addTeleportSign((Sign) e.getBlock().getState(), waypoint);
 	    PvPManager.addPvPSign((Sign) e.getBlock().getState(), Kit.defaultIronKit());
 	    e.setLine(0, color("&5&lEnter PvP"));
-	    e.setLine(1, ChatColor.GREEN + waypoint);
+	    e.setLine(1, color("&a" + waypoint));
 	    e.setLine(2, "");
 	    e.setLine(3, "");
 	    msg(e.getPlayer(), "This sign will now initiate PvP at " + ChatColor.GREEN + waypoint);

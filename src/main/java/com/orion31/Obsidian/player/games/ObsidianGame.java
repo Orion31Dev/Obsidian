@@ -22,7 +22,10 @@ public abstract class ObsidianGame {
     
     public void setPlayer(ObsidianPlayer player) {
 	this.player = player; 
+	init();
     }
+    
+    public void init() { } // Optional Override
     
 }
 

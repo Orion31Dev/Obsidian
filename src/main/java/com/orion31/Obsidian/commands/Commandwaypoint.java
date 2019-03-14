@@ -3,13 +3,13 @@ package com.orion31.Obsidian.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 
 import com.orion31.Obsidian.ObsidianException;
 import com.orion31.Obsidian.player.ObsidianPlayer;
 import com.orion31.Obsidian.player.Teleporter;
 
-import net.md_5.bungee.api.ChatColor;
 
 public class Commandwaypoint extends ObsidianCommand {
     public Commandwaypoint() {

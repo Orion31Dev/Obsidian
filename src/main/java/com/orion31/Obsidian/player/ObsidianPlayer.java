@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -74,6 +75,18 @@ public class ObsidianPlayer {
     
     public Player getMirror() {
 	return player;
+    }
+    
+    public void playSound(Sound sound, float volume, float pitch) {
+	player.playSound(player.getLocation(), sound, volume, pitch);
+    }
+    
+    public void playSound(Sound sound, float volume) {
+	player.playSound(player.getLocation(), sound, volume, 1f);
+    }
+    
+    public void playSound(Sound sound) {
+	player.playSound(player.getLocation(), sound, 1f, 1f);
     }
     
     public void clearInventory() {

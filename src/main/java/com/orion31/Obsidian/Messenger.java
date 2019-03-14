@@ -105,6 +105,14 @@ public class Messenger {
     public static String color(String color) {
 	return ChatColor.translateAlternateColorCodes('&', color);
     }
+    
+    public static String stripColor(String noColor) {
+	return ChatColor.stripColor(noColor);
+    }
+    
+    public static String stripColorCodes(String noCode) {
+	return stripColor(color(noCode));
+    }
 
     public static void motd(Player player) {
 	ghostColor(player, "&5&lPowered by Obsidian. &5/obsidian help");

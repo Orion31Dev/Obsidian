@@ -14,9 +14,11 @@ public class Commandparkour extends ObsidianCommand {
     
     @Override
     public boolean run(ObsidianPlayer player, Command cmd, String label, String[] args) throws ObsidianException {
+	if (args.length < 1) throw new InsufficientArgumentsException();
         if (player.getGameType() != Game.NONE) throw new ObsidianException("You must leave your current game.");
-        player.setGame(new GameParkour());
-        msgColor(player, "Stand on a &6gold block &rto begin your time! (WIP)");
+        player.setGame(new GameParkour(args[0]));
+        // msgColor(player, "Stand on a &6gold block &rto begin your time! (WIP)");
+        msgColor(player, "Started parkour course &a" + args[0]);
         return true;
     }
 }

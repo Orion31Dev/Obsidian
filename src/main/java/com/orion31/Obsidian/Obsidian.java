@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -21,9 +22,9 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import com.orion31.Obsidian.commands.CommandManager;
 import com.orion31.Obsidian.player.ObsidianPlayer;
-import com.orion31.Obsidian.player.PvPManager;
 import com.orion31.Obsidian.player.PlayerListener;
 import com.orion31.Obsidian.player.PlayerUpdater;
+import com.orion31.Obsidian.player.PvPManager;
 import com.orion31.Obsidian.player.Teleporter;
 import com.orion31.Obsidian.player.games.Game;
 import com.orion31.Obsidian.world.SignListener;
@@ -143,6 +144,14 @@ public final class Obsidian extends JavaPlugin {
 	return filteredList;
     }
 
+    
+    public static Location roundLocation(Location loc) {
+	Location loc2 = loc;
+	loc2.setX(Math.round(loc.getX()));
+	loc2.setY(Math.round(loc.getY()));
+	loc2.setZ(Math.round(loc.getZ()));
+	return loc2;
+    }
     public static ObsidianPlayer getPlayer(UUID uuid) throws PlayerNotFoundException {
 	for (ObsidianPlayer player : onlinePlayers) {
 	    if (player.getUUID() == uuid)
@@ -203,7 +212,7 @@ public final class Obsidian extends JavaPlugin {
 	}
 	return players;
     }
-
+    
     public static List<ObsidianPlayer> getObsidianPlayers() {
 	return onlinePlayers;
     }
