@@ -9,13 +9,13 @@ public class PlayerSettings {
     public boolean canRunCommands = false;
 
     public PlayerSettings() {
-	gamemode = GameMode.ADVENTURE;
-	vanished = false;
-	canRunCommands = false;
+        gamemode = GameMode.ADVENTURE;
+        vanished = false;
+        canRunCommands = false;
     }
-    
+
     public PlayerSettings(Player player) {
-	gamemode = player.getGameMode();
-	vanished = false;
+        gamemode = player.getGameMode();
+        vanished = false;
     }
 }

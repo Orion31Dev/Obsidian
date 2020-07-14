@@ -10,17 +10,17 @@ import com.orion31.Obsidian.player.games.ObsidianGame;
 public class GamePvP extends ObsidianGame {
 
     private Kit kit;
-    
+
     public GamePvP(Kit kit) {
-	super(Game.PVP);
-	this.kit = kit;
+        super(Game.PVP);
+        this.kit = kit;
     }
 
     @Override
     public PlayerSettings getSettings() {
-	return new PlayerSettings();
+        return new PlayerSettings();
     }
-    
+
     @Override
     public PlayerInventory getInventory() {
         return kit.getInventory(player);

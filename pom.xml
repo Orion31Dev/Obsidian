@@ -12,9 +12,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<generateBackupPoms>false</generateBackupPoms>
 					<source>1.8</source>
        				<target>1.8</target>
+					<outputDirectory>D:\Users\Ryan Salik\Documents\Minecraft\Server 1.12.2\plugins</outputDirectory>
 				</configuration>
 			</plugin>
 		</plugins>

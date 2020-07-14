@@ -80,6 +80,10 @@ public class Messenger {
 	ghostAll(color(msg));
     }
 
+    public static void ghostAllColor(String msg, Object... objects) {
+        ghostAll(color(String.format(msg, objects)));
+    }
+
     public static void ghostAll(String msg) {
 	Bukkit.broadcastMessage(msg);
     }

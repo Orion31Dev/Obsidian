@@ -3,16 +3,17 @@ package com.orion31.Obsidian.commands;
 import java.util.Collections;
 import java.util.List;
 
+import com.bringholm.nametagchanger.NameTagChanger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import com.orion31.Obsidian.ObsidianException;
 import com.orion31.Obsidian.player.ObsidianPlayer;
 
-public class Commandnickname extends ObsidianCommand {
+public class Commandnametag extends ObsidianCommand {
 
-    public Commandnickname() {
-        super("nickname");
+    public Commandnametag() {
+        super("nametag");
     }
 
     @Override
@@ -21,21 +22,16 @@ public class Commandnickname extends ObsidianCommand {
             throw new InsufficientArgumentsException();
         }
 
-        if (stripColorCodes(args[0]).length() > 25) {
-            throw new ObsidianException("Nickname cannot be more than 25 characters, excluding color codes.");
+        if (args[0].length() > 16) {
+            throw new ObsidianException("Nametag cannot be more than 16 characters.");
         }
 
         ObsidianPlayer target = getPlayer(args[1]);
+        target.setTag(args[0].replaceAll("_", " "));
+        msg(target, "Your nametag is now " + target.getTag());
+        msg(sender, "Set %s's nametag to " + target.getTag(), target.getRealName());
 
-        if (args[0].equals(target.getRealName())) {
-            target.setNick("");
-            msg(target, "Your nickname was reset.");
-            msg(sender, "Reset %s's nickname." + target.getNick(), target.getRealName());
-        } else {
-            target.setNick(args[0].replaceAll("_", " "));
-            msg(target, "Your nickname is now " + target.getNick());
-            msg(sender, "Set %s's nickname to " + target.getNick(), target.getRealName());
-        }
+        NameTagChanger.INSTANCE.changePlayerName(target.getMirror(), target.getTag());
         return true;
     }
 
@@ -45,19 +41,15 @@ public class Commandnickname extends ObsidianCommand {
             throw new InsufficientArgumentsException();
         }
 
-        if (stripColorCodes(args[0]).length() > 25) {
-            throw new ObsidianException("Nickname cannot be more than 25 characters, excluding color codes.");
+        if (args[0].length() > 16) {
+            throw new ObsidianException("Nametag cannot be more than 16 characters.");
         }
 
         if (args.length == 1) {
-            if (args[0].equals(player.getRealName())) {
-                player.setNick("");
-                msg(player, "Nickname reset.");
-            } else {
-                player.setNick(args[0].replaceAll("_", " "));
-                msg(player, "Your nickname is now " + player.getNick());
-            }
+            player.setTag(args[0].replaceAll("_", " "));
+            msg(player, "Your nametag is now " + player.getTag());
 
+            NameTagChanger.INSTANCE.changePlayerName(player.getMirror(), player.getTag());
             return true;
         }
 

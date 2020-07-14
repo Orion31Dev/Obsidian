@@ -12,9 +12,9 @@ import com.orion31.Obsidian.player.Teleporter;
 
 public class Listenerpvp implements Listener {
     @EventHandler
-    public void onPlayerRespawn(PlayerRespawnEvent e) throws PlayerNotFoundException {
-	ObsidianPlayer player = Obsidian.getPlayer(e.getPlayer().getUniqueId());
-	if (player.getGameType() == Game.PVP) {
+	public void onPlayerRespawn(PlayerRespawnEvent e) throws PlayerNotFoundException {
+		ObsidianPlayer player = Obsidian.getPlayer(e.getPlayer().getUniqueId());
+		if (player.getGameType() == Game.PVP) {
 	    player.endGame();
 	    if (Teleporter.waypointExists("pvp"))
 		e.setRespawnLocation(Teleporter.getWaypoint("pvp"));

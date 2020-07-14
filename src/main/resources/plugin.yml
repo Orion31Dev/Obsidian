@@ -1,15 +1,28 @@
 name: Obsidian
 main: com.orion31.Obsidian.Obsidian
 version: 1.0
+depend: [ProtocolLib]
 commands:
   blockcommands:
     description: Toggle a player's ability to run commands
     usage: /blockcommands <player>
     aliases: [bcmd, blockcmds, tcmd, togglecmds, togglecommands]
+  broadcast:
+    description: Broadcast a message to all players
+    usage: /broadcast <msg>
+    aliases: [bc, bcast, shout]
+  createkit:
+    description: Create a kit with your current inventory
+    usage: /kit <name>
+    aliases: [ck, ckit]
   createparkour:
     description: Create a parkour course
     usage: /createparkour
     aliases: [createcourse, cpk, createparkourcourse]
+  deletekit:
+    description: Delete a kit
+    usage: /deletekit <kit>
+    aliases: [dkit, dk, delkit, delk]
   deletewaypoint:
     description: Delete a waypoint
     usage: /deletewaypoint <waypoint>
@@ -22,10 +35,26 @@ commands:
     description: Go to a waypoint
     usage: /goto <name> [player]
     aliases: [warp, gotoway, gotopoint, gotowaypoint, tpway, tppoint, tpwaypoint]
+  itemname:
+    description: Change an item's display name
+    usage: /itemname <name>
+    aliases: [iname, in, dname, dn, displayname]
+  kit:
+    description: Apply a kit to you or another player
+    usage: /kit <kitname> [player]
+    aliases: [k, applykit, ak]
+  kits:
+    description: List all kits
+    usage: /kits
+    aliases: [listkits]
   listwaypoints:
     description: List all available waypoints
     usage: /listwaypoints
     aliases: [warps, getwarps, listwarps, getpoints, listpoints, gettps, listtps, getwaypoints]
+  nametag:
+    description: Change a player's nametag
+    usage: /nametag <nametag> [player]
+    aliases: [nt, tag]
   nickname:
     description: Change a player's nickname
     usage: /nickname <nickname> [player]
@@ -41,9 +70,16 @@ commands:
     description: Test command
     usage: /ping
     aliases: [test]
+  powertool:
+    description: Binds a command to your held item
+    usage: /powertool <command>
+    aliases: [pt, ptool]
   setspawn:
     description: Create spawn waypoint accessable on death or with /spawn
     usage: /setspawn
+  smite:
+    description: Smite a player
+    usage: /smite <player>
   spawn:
     description: Go to spawn waypoint
     usage: /spawn
